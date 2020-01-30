@@ -5,17 +5,18 @@
 #include <iostream>
 #include <fstream>
 
-int main()
+#include "Point.h"
+
+Json::Value getJsonFromFile(const std::string& fileName)
 {
-	std::string fileName = "..\\data\\problem1.json";
 	std::ifstream infile(fileName);
 
-	if (infile.good() == false) 
+	if (infile.good() == false)
 	{
 		std::cout << "File \"" << fileName << "\" cannot be found." << std::endl;
-		return EXIT_FAILURE;
+		exit(EXIT_FAILURE);
 	}
-	
+
 	std::cout << "Parsing \"" << fileName << "\"" << std::endl;
 	infile.open(fileName);
 
@@ -28,27 +29,72 @@ int main()
 		std::cout << "Unable to parse file." << std::endl;
 		std::cout << errors << std::endl;
 		infile.close();
-		return EXIT_FAILURE;
+		exit(NULL);
 	}
 
 	infile.close();
 
+	return root;
+}
 
+Point buildPoint(const Json::Value root, const std::string& key)
+{
+	const Json::Value arr = root.get(key, Json::arrayValue);
+	Point point;
+	point.x = arr[0].asInt();
+	point.y = arr[1].asInt();
 
-	//Json::Value root;
-	//std::ifstream ifs;
-	//ifs.open(fileName);
+	return point;
+}
 
-	//Json::CharReaderBuilder builder;
-	//builder["collectComments"] = true;
-	//JSONCPP_STRING errs;
-	//
-	//
-	//if (!parseFromStream(builder, ifs, &root, &errs)) 
-	//{
-	//	std::cout << errs << std::endl;
-	//	return EXIT_FAILURE;
-	//}
+std::vector<Point> buildSolutionPath(const Json::Value root)
+{
+	std::vector<Point> solutionPath;
+	for (int i = 0; i < root.size(); ++i)
+	{
+		const Json::Value arr = root[i];
+
+		Point point;
+		point.x = arr[0].asInt();
+		point.y = arr[1].asInt();
+
+		solutionPath.push_back(point);
+	}
+
+	return solutionPath;
+}
+
+void compareSolutions(std::vector<Point> given, std::vector<Point> actual)
+{
+	std::cerr << "This has not yet been implemented." << std::endl;
+}
+
+void printSolutionPath(const std::vector<Point> path)
+{
+	for (int i = 0; i < path.size(); ++i)
+	{
+		std::cout << path[i].x << ", " << path[i].y << std::endl;
+	}
+}
+
+int main()
+{
+	std::string mapFile = "..\\data\\Problem1.json";
+	//std::string fileName = "..\\data\\Problem2.json";
+	//std::string fileName = "..\\data\\Problem3.json";
+
+	std::string solutionFile = "..\\data\\Solution1.json";
+	//std::string solutionFile = "..\\data\\Solution2.json";
+	//std::string solutionFile = "..\\data\\Solution3.json";
+
+	Json::Value map = getJsonFromFile(mapFile);
+	Json::Value solution = getJsonFromFile(solutionFile);
+
+	Point start = buildPoint(map, "Start");
+	Point destination = buildPoint(map, "Destination");
+
+	std::vector<Point> solutionPath = buildSolutionPath(solution);
+	
 
 	std::cout << "Process completed." << std::endl;
 	return EXIT_SUCCESS;
