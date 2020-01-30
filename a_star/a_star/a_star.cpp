@@ -96,7 +96,7 @@ int main()
 	Map map(jsonMap);
 
 	std::vector<Point> solutionPath = buildSolutionPath(jsonSolution);
-	
+
 
 	std::cout << "Process completed." << std::endl;
 	return EXIT_SUCCESS;
