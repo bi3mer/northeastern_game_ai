@@ -4,7 +4,7 @@ Map::Map(Json::Value root)
 {
 	Json::Value matrix = root.get("Map", Json::arrayValue);
 	h = matrix.size();
-	w = matrix[0].asString().size();
+	w = (int) matrix[0].asString().size();
 
 	for (int i = 0; i < h; ++i) 
 	{

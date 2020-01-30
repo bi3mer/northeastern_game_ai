@@ -41,33 +41,37 @@ Json::Value getJsonFromFile(const std::string& fileName)
 Point buildPoint(const Json::Value root, const std::string& key)
 {
 	const Json::Value arr = root.get(key, Json::arrayValue);
-	Point point;
-	point.x = arr[0].asInt();
-	point.y = arr[1].asInt();
-
-	return point;
+	return Point(arr[0].asInt(), arr[1].asInt());
 }
 
 std::vector<Point> buildSolutionPath(const Json::Value root)
 {
 	std::vector<Point> solutionPath;
-	for (int i = 0; i < root.size(); ++i)
+	for (int i = 0; i < (int) root.size(); ++i)
 	{
 		const Json::Value arr = root[i];
-
-		Point point;
-		point.x = arr[0].asInt();
-		point.y = arr[1].asInt();
-
-		solutionPath.push_back(point);
+		solutionPath.push_back(Point(arr[0].asInt(), arr[1].asInt()));
 	}
 
 	return solutionPath;
 }
 
-void compareSolutions(std::vector<Point> given, std::vector<Point> actual)
+bool solutionPathsEqual(std::vector<Point> given, std::vector<Point> actual)
 {
-	std::cerr << "This has not yet been implemented." << std::endl;
+	if (given.size() != actual.size())
+	{
+		return false;
+	}
+	
+	for (int i = 0; i < given.size(); ++i)
+	{
+		if (!given[i].equals(actual[i]))
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void printSolutionPath(const std::vector<Point> path)
@@ -96,7 +100,6 @@ int main()
 	Map map(jsonMap);
 
 	std::vector<Point> solutionPath = buildSolutionPath(jsonSolution);
-
 
 	std::cout << "Process completed." << std::endl;
 	return EXIT_SUCCESS;

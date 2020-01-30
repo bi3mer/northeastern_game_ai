@@ -2,8 +2,8 @@
 #include <iostream>>
 #include <string>
 #include <vector>
-
 #include "Point.h"
+
 
 #pragma once
 class Map
@@ -21,5 +21,3 @@ private:
 
 	std::vector<std::vector<int>> costs;
 };
-
-
