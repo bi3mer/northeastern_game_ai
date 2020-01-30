@@ -12,5 +12,6 @@
 namespace AStar
 {
 	std::vector<Point> findPath(Point start, Point destination, const Map map);
-	const float distance(const Point p1, const Point p2);
+	const float euclidianDistance(const Point p1, const Point p2);
+	const float manhattanDistance(const Point p1, const Point p2);
 }

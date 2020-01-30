@@ -60,12 +60,12 @@ std::vector<Point> buildSolutionPath(const Json::Value root)
 
 int main()
 {
-	std::string mapFile = "..\\data\\Problem1.json";
-	//std::string fileName = "..\\data\\Problem2.json";
-	//std::string fileName = "..\\data\\Problem3.json";
+	//std::string mapFile = "..\\data\\Problem1.json";
+	std::string mapFile = "..\\data\\Problem2.json";
+	//std::string mapFile = "..\\data\\Problem3.json";
 
-	std::string solutionFile = "..\\data\\Solution1.json";
-	//std::string solutionFile = "..\\data\\Solution2.json";
+	//std::string solutionFile = "..\\data\\Solution1.json";
+	std::string solutionFile = "..\\data\\Solution2.json";
 	//std::string solutionFile = "..\\data\\Solution3.json";
 
 	Json::Value jsonSolution = getJsonFromFile(solutionFile);

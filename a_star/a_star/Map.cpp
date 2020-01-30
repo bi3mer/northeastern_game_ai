@@ -47,13 +47,40 @@ const int Map::getCost(int x, int y)
 }
 
 // implemented for all eight directions
+const std::vector<std::pair<int, Point>> Map::getTaxiCabNeighbors(const int x, const int y)
+{
+	std::vector<std::pair<int, Point>> neighbors;
+
+	for (int yMod = -1; yMod <= 1; ++yMod)
+	{
+		for (int xMod = -1; xMod <= 1; ++xMod)
+		{
+			if (xMod == yMod) continue;
+
+			int newX = x + xMod;
+			int newY = y + yMod;
+
+			if (newX < 0 || newX >= w) continue;
+			if (newY < 0 || newY >= h) continue;
+
+			int cost = getCost(newX, newY);
+			if (cost > 0)
+			{
+				neighbors.push_back(std::make_pair(cost, Point(newX, newY)));
+			}
+		}
+	}
+
+	return neighbors;
+}
+
 const std::vector<std::pair<int, Point>> Map::getNeighbors(const int x, const int y)
 {
 	std::vector<std::pair<int, Point>> neighbors;
 
 	for (int yMod = -1; yMod <= 1; ++yMod)
 	{
-		for (int xMod = -0; xMod <=1; ++xMod)
+		for (int xMod = -1; xMod <= 1; ++xMod)
 		{
 			if (xMod == 0 && yMod == 0) continue;
 
