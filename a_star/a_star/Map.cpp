@@ -42,9 +42,16 @@ std::vector<Point> Map::getNeighbors(int x, int y)
 
 std::string Map::getHash()
 {
-	std::cerr << "Map getHash not yet implemented." << std::endl;
-	exit(EXIT_FAILURE);
-	return std::string();
+	std::string hash = "";
+	for (int y = 0; y < h; ++y)
+	{
+		for (int x = 0; x < w; ++x)
+		{
+			hash += std::to_string(costs[y][x]);
+		}
+	}
+
+	return hash;
 }
 
 void Map::print()

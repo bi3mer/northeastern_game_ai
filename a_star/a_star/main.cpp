@@ -99,6 +99,8 @@ int main()
 	Point start = buildPoint(jsonMap, "Start");
 	Map map(jsonMap);
 
+	std::cout << map.getHash() << std::endl;
+
 	std::vector<Point> solutionPath = buildSolutionPath(jsonSolution);
 
 	std::cout << "Process completed." << std::endl;
