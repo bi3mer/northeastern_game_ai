@@ -11,11 +11,11 @@ class Map
 public:
 	Map(Json::Value root);
 	Map(const Map& map);
-	int getCost(int x, int y);
-	std::vector<Point> getNeighbors(int x, int y);
-	bool equals(Map& map);
-	std::string getHash();
-	void print();
+	const int getCost(int x, int y);
+	const std::vector<std::pair<int, Point>> getNeighbors(const int x, const int y);
+	const bool equals(Map& map);
+	const std::string getHash();
+	const void print();
 private:
 	int w;
 	int h;

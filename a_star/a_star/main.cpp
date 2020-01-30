@@ -5,6 +5,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "Utility.h"
+#include "AStar.h"
 #include "Point.h"
 #include "Map.h"
 
@@ -56,32 +58,6 @@ std::vector<Point> buildSolutionPath(const Json::Value root)
 	return solutionPath;
 }
 
-bool solutionPathsEqual(std::vector<Point> given, std::vector<Point> actual)
-{
-	if (given.size() != actual.size())
-	{
-		return false;
-	}
-	
-	for (int i = 0; i < given.size(); ++i)
-	{
-		if (!given[i].equals(actual[i]))
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
-
-void printSolutionPath(const std::vector<Point> path)
-{
-	for (int i = 0; i < path.size(); ++i)
-	{
-		std::cout << path[i].x << ", " << path[i].y << std::endl;
-	}
-}
-
 int main()
 {
 	std::string mapFile = "..\\data\\Problem1.json";
@@ -100,8 +76,23 @@ int main()
 	Map map(jsonMap);
 
 	std::vector<Point> solutionPath = buildSolutionPath(jsonSolution);
+	std::vector<Point> path = AStar::findPath(start, destination, map);
 
-	std::cout << "Process completed." << std::endl;
+	if (Utility::equivalentSolutions(solutionPath, path))
+	{
+		std::cout << "AStar found an equivalent solution path!" << std::endl;
+	}
+	else
+	{
+		std::cout << "AStar was unable to find an equivalent solution path." << std::endl;;
+	}
+
+	std::cout << std::endl << "AStar found: " << std::endl;
+	Utility::printPointVector(path);
+
+	std::cout << std::endl << "Given path: " << std::endl;
+	Utility::printPointVector(solutionPath);
+
 	return EXIT_SUCCESS;
 }
 

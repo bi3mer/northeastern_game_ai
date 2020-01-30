@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 struct Point
 {
 public:
@@ -6,6 +8,8 @@ public:
 	int y;
 
 	Point(int x, int y);
-	bool equals(Point& p);
+	Point(const Point& p);
+	std::string getHash();
+	bool equals(const Point& p);
 };
 

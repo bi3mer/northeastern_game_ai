@@ -38,15 +38,44 @@ Map::Map(const Map& map)
 	}
 }
 
-std::vector<Point> Map::getNeighbors(int x, int y)
+// not doing error checking. I'll let it crash if it gets here without having
+// already had error checking. For this I need to re-orient the Y value since
+// the map is oriented from the bottom left.
+const int Map::getCost(int x, int y)
 {
-	std::cerr << "Map getNeighbors not yet implemented." << std::endl;
-	exit(EXIT_FAILURE);
-	return std::vector<Point>();
+	return costs[(size_t) h - 1 - y][x];
+}
+
+// implemented for all eight directions
+const std::vector<std::pair<int, Point>> Map::getNeighbors(const int x, const int y)
+{
+	std::vector<std::pair<int, Point>> neighbors;
+
+	for (int yMod = -1; yMod <= 1; ++yMod)
+	{
+		for (int xMod = -0; xMod <=1; ++xMod)
+		{
+			if (xMod == 0 && yMod == 0) continue;
+
+			int newX = x + xMod;
+			int newY = y + yMod;
+
+			if (newX < 0 || newX >= w) continue;
+			if (newY < 0 || newY >= h) continue;
+
+			int cost = getCost(newX, newY);
+			if (cost > 0)
+			{
+				neighbors.push_back(std::make_pair(cost, Point(newX, newY)));
+			}
+		}
+	}
+
+	return neighbors;
 }
 
 // alternatively, I could compare the two resulting hash codes.
-bool Map::equals(Map& map)
+const bool Map::equals(Map& map)
 {
 	if (w != map.w || h != map.h)
 	{
@@ -67,7 +96,7 @@ bool Map::equals(Map& map)
 	return true;
 }
 
-std::string Map::getHash()
+const std::string Map::getHash()
 {
 	std::string hash = "";
 	for (int y = 0; y < h; ++y)
@@ -81,7 +110,7 @@ std::string Map::getHash()
 	return hash;
 }
 
-void Map::print()
+const void Map::print()
 {
 	for (int i = 0; i < h; ++i)
 	{
