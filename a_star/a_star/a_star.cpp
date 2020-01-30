@@ -6,6 +6,7 @@
 #include <fstream>
 
 #include "Point.h"
+#include "Map.h"
 
 Json::Value getJsonFromFile(const std::string& fileName)
 {
@@ -87,13 +88,14 @@ int main()
 	//std::string solutionFile = "..\\data\\Solution2.json";
 	//std::string solutionFile = "..\\data\\Solution3.json";
 
-	Json::Value map = getJsonFromFile(mapFile);
-	Json::Value solution = getJsonFromFile(solutionFile);
+	Json::Value jsonSolution = getJsonFromFile(solutionFile);
+	Json::Value jsonMap = getJsonFromFile(mapFile);
 
-	Point start = buildPoint(map, "Start");
-	Point destination = buildPoint(map, "Destination");
+	Point destination = buildPoint(jsonMap, "Destination");
+	Point start = buildPoint(jsonMap, "Start");
+	Map map(jsonMap);
 
-	std::vector<Point> solutionPath = buildSolutionPath(solution);
+	std::vector<Point> solutionPath = buildSolutionPath(jsonSolution);
 	
 
 	std::cout << "Process completed." << std::endl;
