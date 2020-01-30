@@ -13,6 +13,7 @@ public:
 	Map(const Map& map);
 	int getCost(int x, int y);
 	std::vector<Point> getNeighbors(int x, int y);
+	bool equals(Map& map);
 	std::string getHash();
 	void print();
 private:
