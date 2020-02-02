@@ -4,7 +4,9 @@
 #include <json/json.h>
 #include <iostream>
 #include <fstream>
+#include <queue>
 
+#include "PathSimplification.h"
 #include "Utility.h"
 #include "AStar.h"
 #include "Point.h"
@@ -32,7 +34,7 @@ Json::Value getJsonFromFile(const std::string& fileName)
 		std::cout << "Unable to parse file." << std::endl;
 		std::cout << errors << std::endl;
 		infile.close();
-		exit(NULL);
+		exit(EXIT_FAILURE);
 	}
 
 	infile.close();
@@ -58,14 +60,30 @@ std::vector<Point> buildSolutionPath(const Json::Value root)
 	return solutionPath;
 }
 
+std::string getInput(std::string output)
+{
+	std::cout << output << std::endl;
+	std::string userInput;
+	std::cin >> userInput;
+
+	return userInput;
+}
+
 int main()
 {
-	//std::string mapFile = "..\\data\\Problem1.json";
-	std::string mapFile = "..\\data\\Problem2.json";
-	//std::string mapFile = "..\\data\\Problem3.json";
+	std::cerr << "Uncomment these for final version" << std::endl;
+	//std::string mapFile = getInput("Please input path to map file:");
+	//std::string solutionFile = getInput("Please input path to solution path:");
 
-	//std::string solutionFile = "..\\data\\Solution1.json";
-	std::string solutionFile = "..\\data\\Solution2.json";
+	std::string mapFile = "..\\data\\Problem1.json";
+	std::string solutionFile = "..\\data\\Solution1.json";
+	
+	//std::string mapFile = "..\\data\\Problem2.json";
+	//std::string mapFile = "..\\data\\accurateProblem2.json";
+	//std::string solutionFile = "..\\data\\Solution2.json";
+
+	//std::string mapFile = "..\\data\\Problem3.json";
+	//std::string mapFile = "..\\data\\impossibleProblem3.json";
 	//std::string solutionFile = "..\\data\\Solution3.json";
 
 	Json::Value jsonSolution = getJsonFromFile(solutionFile);
@@ -76,22 +94,40 @@ int main()
 	Map map(jsonMap);
 
 	std::vector<Point> solutionPath = buildSolutionPath(jsonSolution);
-	std::vector<Point> path = AStar::findPath(start, destination, map);
+	std::vector<Point> astarPath = AStar::findPath(start, destination, map);
 
-	if (Utility::equivalentSolutions(solutionPath, path))
+	if (astarPath.size() != 0)
 	{
-		std::cout << "AStar found an equivalent solution path!" << std::endl;
-	}
-	else
-	{
-		std::cout << "AStar was unable to find an equivalent solution path." << std::endl;;
-	}
+		if (Utility::equivalentSolutions(solutionPath, astarPath))
+		{
+			std::cout << "AStar found an equivalent solution path!" << std::endl;
+		}
+		else
+		{
+			std::cout << "AStar was unable to find an equivalent solution path." << std::endl;;
+		}
 
-	std::cout << std::endl << "AStar found: " << std::endl;
-	Utility::printPointVector(path);
+		std::cout << std::endl;
+		std::cout << "Solution path" << std::endl;
+		Utility::printPathInMap(solutionPath, map);
 
-	std::cout << std::endl << "Given path: " << std::endl;
-	Utility::printPointVector(solutionPath);
+		std::cout << std::endl << std::endl << "My solution" << std::endl;
+		Utility::printPathInMap(astarPath, map);
+
+		std::cout << std::endl << "AStar found: " << std::endl;
+		Utility::printPointVector(astarPath);
+		std::cout << "Cost: " << Utility::solutionPathCost(astarPath, map) << std::endl;;
+
+		std::cout << std::endl << "Given path: " << std::endl;
+		Utility::printPointVector(solutionPath);
+		std::cout << "Cost: " << Utility::solutionPathCost(solutionPath, map) << std::endl;;
+
+		std::cout << std::endl << std::endl;
+		
+		std::vector<Point> simplifiedPath = PathSimplification::simplifyPath(astarPath, map);
+		std::cout << "Simplified Path" << std::endl;
+		Utility::printPointVector(simplifiedPath);
+	}
 
 	return EXIT_SUCCESS;
 }

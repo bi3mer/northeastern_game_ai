@@ -1,9 +1,9 @@
 #include "AStarNode.h"
 
-AStarNode::AStarNode(AStarNode node, int cost, int h, Point newPoint)
+AStarNode::AStarNode(AStarNode node, int tileCost, float h, Point newPoint)
 {
 	AStarNode::h = h;
-	g = node.g + cost;
+	g = node.g + tileCost;
 
 	path = std::vector<Point>();
 	for (int i = 0; i < node.path.size(); ++i)
@@ -14,7 +14,7 @@ AStarNode::AStarNode(AStarNode node, int cost, int h, Point newPoint)
 	path.push_back(Point(newPoint));
 }
 
-AStarNode::AStarNode(int g, int h, std::vector<Point> oldPath, Point newPoint)
+AStarNode::AStarNode(int g, float h, std::vector<Point> oldPath, Point newPoint)
 {
 	AStarNode::g = g;
 	AStarNode::h = h;
@@ -33,9 +33,9 @@ Point AStarNode::getPoint()
 	return path[path.size() - 1];
 }
 
-int AStarNode::getCost()
+float AStarNode::getCost()
 {
-	return g + h;
+	return (float) g + h;
 }
 
 std::vector<Point> AStarNode::getPath()

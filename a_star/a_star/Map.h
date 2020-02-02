@@ -17,6 +17,8 @@ public:
 	const bool equals(Map& map);
 	const std::string getHash();
 	const void print();
+	const int getHeight();
+	const int getWidth();
 private:
 	int w;
 	int h;

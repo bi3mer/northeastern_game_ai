@@ -7,14 +7,14 @@
 struct AStarNode
 {
 public:
-	AStarNode(AStarNode node, int cost, int h, Point newPoint);
-	AStarNode(int g, int h, std::vector<Point> path, Point newPoint);
+	AStarNode(AStarNode node, int cost, float h, Point newPoint);
+	AStarNode(int g, float h, std::vector<Point> path, Point newPoint);
 	Point getPoint();
-	int getCost();
+	float getCost();
 	std::vector<Point> getPath();
 private:
 	int g;
-	int h;
+	float h;
 	std::vector<Point> path;
 };
 

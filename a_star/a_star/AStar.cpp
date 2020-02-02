@@ -1,5 +1,14 @@
 #include "AStar.h"
 
+struct CompareFirst
+{
+	constexpr bool operator()(std::pair<int, AStarNode> const& a, std::pair<int, AStarNode> const& b) const noexcept
+	{
+		return a.first > b.first;
+	}
+};
+
+
 std::vector<Point> AStar::findPath(Point start, Point destination, Map map)
 {
 	if (start.equals(destination))
@@ -7,7 +16,7 @@ std::vector<Point> AStar::findPath(Point start, Point destination, Map map)
 		return std::vector<Point> {destination};
 	}
 
-	std::queue<std::pair<int, AStarNode>> queue;
+	std::priority_queue<std::pair<int, AStarNode>, std::vector<std::pair<int, AStarNode>>, CompareFirst> queue;
 	queue.push(std::make_pair(0, AStarNode(0, 0, std::vector<Point>(), start)));
 
 	std::unordered_set<std::string> usedPositions;
@@ -24,33 +33,30 @@ std::vector<Point> AStar::findPath(Point start, Point destination, Map map)
 			return std::vector<Point>();
 		}
 
-		AStarNode parentNode = queue.front().second;
+		AStarNode parentNode = queue.top().second;
 		Point parentPoint = parentNode.getPoint();
 		queue.pop();
 
-		if (parentPoint.equals(destination))
+		std::vector<std::pair<int, Point>> newPoints = map.getTaxiCabNeighbors(parentPoint.x, parentPoint.y);
+		for (int i = 0; i < newPoints.size(); ++i)
 		{
-			pathFound = true;
-			path = parentNode.getPath();
-		}
-		else
-		{
-			std::vector<std::pair<int, Point>> newPoints = map.getTaxiCabNeighbors(parentPoint.x, parentPoint.y);
+			Point newPoint = newPoints[i].second;
+			std::string hash = newPoint.getHash();
 
-			for (int i = 0; i < newPoints.size(); ++i)
+			if (newPoint.equals(destination))
 			{
-				Point newPoint = newPoints[i].second;
-				std::string hash = newPoint.getHash();
-				
-				if (usedPositions.find(hash) == usedPositions.end()) // make sure element not found
-				{
-					usedPositions.insert(hash);
+				pathFound = true;
+				path = parentNode.getPath();
+				path.push_back(newPoint);
+				break;
+			}
+			else if(usedPositions.find(hash) == usedPositions.end()) // make sure point hasn't been seen before
+			{
+				usedPositions.insert(hash);
 
-					int pathCost = newPoints[i].first;
-					std::cout << parentPoint.getHash() << " -> " <<pathCost << std::endl;
-					AStarNode newNode(parentNode, pathCost, manhattanDistance(newPoint, destination), newPoint);
-					queue.push(std::make_pair(newNode.getCost(), newNode));
-				}
+				int pathCost = newPoints[i].first;
+				AStarNode newNode(parentNode, pathCost, Utility::euclidianDistance(newPoint, destination), newPoint);
+				queue.push(std::make_pair(newNode.getCost(), newNode));
 			}
 		}
 	}
@@ -58,12 +64,4 @@ std::vector<Point> AStar::findPath(Point start, Point destination, Map map)
 	return path;
 }
 
-const float AStar::euclidianDistance(const Point p1, const Point p2)
-{
-	return sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2));
-}
 
-const float AStar::manhattanDistance(const Point p1, const Point p2)
-{
-	return abs(p2.x - p1.x) + abs(p2.y - p1.y);
-}

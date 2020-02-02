@@ -1,49 +1,34 @@
 # A Star
 
-I used [vcpkg](https://github.com/microsoft/vcpkg) to install the 64 bit version of [jsoncpp](https://github.com/open-source-parsers/jsoncpp).
+**Code Location**: .\a_star <br/>
+**Data Location**: .\data
 
-### Problem 3 Solution
+A* is implemented in `.\a_star\AStar.cpp` and `.\a_star\AStarNode.cpp` with corresponding header files.
+
+Heirarchal pathfindng is implemented in `.\a_star\HeirarchalPath.cpp` with a corresponding header file. This uses the rectangle/square method discussed in class without the additional steps for removing smaller rectangles/squares.
+
+Path simplification is implmetned in `.\a_star\PathSimplfication.cpp` with a corresponding header file. 
+
+## Setting Maps
+
+Run the executable and you will be able to input the map files that you want.
 
 ```
-3X33333X3X3XXXXXXXXX
-3X3X3X333X3333333333
-3X3X3XXXXX3X3XXXXXXX
-333X3333333X3X333333
-XXXXXXXXXXXX3X3XXXX3
------------X3X3333X3
--X3XXXXXXX-X3XXXX3X3
--XXX-------X333333X3
--X3X-XXXXXXXXXXXXXX3
--X3X-----X3X3333X333
--X3XXXXX-X3X3X33X3XX
----X333X-33X3X33X333
-XX-X3XXX-XXX3XXXXXX3
-3X-X3X---X---X3X3333
-3X-X3X-XXX-X-X3XXXX3
----33X-----X-X333333
-XXXXXXXXXX3X-X3XX3XX
-----33333X3X----X3X3
--XX-XXXXXXXXXXX-X3X3
--3X-------------X333
-
-3X33333X3X3XXXXXXXXX
-3X3X3X333X3333333333
-3X3X3XXXXX3X3XXXXXXX
-333X3333333X3X333333
-XXXXXXXXXXXX3X3XXXX3
-33333333333X3X3333X3
-3X3XXXXXXX3X3XXXX3X3
-3XXX3333333X333333X3
-3X3X3XXXXXXXXXXXXXX3
-3X3X33333X3X3333X333
-3X3XXXXX3X3X3X33X3XX
-333X333X333X3X33X333
-XX3X3XXX3XXX3XXXXXX3
-3X3X3X333X333X3X3333
-3X3X3X3XXX3X3X3XXXX3
-33333X33333X3X333333
-XXXXXXXXXX3X3X3XX3XX
-333333333X3X3333X3X3
-3XX3XXXXXXXXXXX3X3X3
-33X3333333333333X333
+Please input path to map file:
+..\\data\\Problem1.json
+Please input path to solution path:
+..\\data\\Solution1.json
 ```
+
+## How to Run
+
+Execute executable.
+
+I also have included the visual studio project that you can work with. I used [vcpkg](https://github.com/microsoft/vcpkg) to install the 64 bit version of [jsoncpp](https://github.com/open-source-parsers/jsoncpp). 
+
+### Modified Input
+
+The input for problem 2 and 3 is incorrect given the solutions. As a result I have two additional files in .\data.
+
+* .\data\accurateProblem2.json
+* .\data\impossibleProblem3.json

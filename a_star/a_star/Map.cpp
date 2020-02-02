@@ -55,18 +55,19 @@ const std::vector<std::pair<int, Point>> Map::getTaxiCabNeighbors(const int x, c
 	{
 		for (int xMod = -1; xMod <= 1; ++xMod)
 		{
-			if (xMod == yMod) continue;
-
-			int newX = x + xMod;
-			int newY = y + yMod;
-
-			if (newX < 0 || newX >= w) continue;
-			if (newY < 0 || newY >= h) continue;
-
-			int cost = getCost(newX, newY);
-			if (cost > 0)
+			if ((xMod == 0 && yMod != 0) || (xMod != 0 && yMod == 0))
 			{
-				neighbors.push_back(std::make_pair(cost, Point(newX, newY)));
+				int newX = x + xMod;
+				int newY = y + yMod;
+
+				if (newX < 0 || newX >= w) continue;
+				if (newY < 0 || newY >= h) continue;
+
+				int cost = getCost(newX, newY);
+				if (cost > 0)
+				{
+					neighbors.push_back(std::make_pair(cost, Point(newX, newY)));
+				}
 			}
 		}
 	}
@@ -148,4 +149,14 @@ const void Map::print()
 
 		std::cout << std::endl;
 	}
+}
+
+const int Map::getHeight()
+{
+	return h;
+}
+
+const int Map::getWidth()
+{
+	return w;
 }
