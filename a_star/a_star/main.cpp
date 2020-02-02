@@ -71,12 +71,11 @@ std::string getInput(std::string output)
 
 int main()
 {
-	std::cerr << "Uncomment these for final version" << std::endl;
-	//std::string mapFile = getInput("Please input path to map file:");
-	//std::string solutionFile = getInput("Please input path to solution path:");
+	std::string mapFile = getInput("Please input path to map file:");
+	std::string solutionFile = getInput("Please input path to solution path:");
 
-	std::string mapFile = "..\\data\\Problem1.json";
-	std::string solutionFile = "..\\data\\Solution1.json";
+	//std::string mapFile = "..\\data\\Problem1.json";
+	//std::string solutionFile = "..\\data\\Solution1.json";
 	
 	//std::string mapFile = "..\\data\\Problem2.json";
 	//std::string mapFile = "..\\data\\accurateProblem2.json";
